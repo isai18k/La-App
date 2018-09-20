@@ -14,6 +14,9 @@
 		BDBB9A0F2153002E00580977 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDBB9A0D2153002E00580977 /* LaunchScreen.storyboard */; };
 		BDBB9A1A2153002E00580977 /* La_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A192153002E00580977 /* La_AppTests.swift */; };
 		BDBB9A252153002E00580977 /* La_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A242153002E00580977 /* La_AppUITests.swift */; };
+		BDBB9A352153FC6100580977 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A322153FC6100580977 /* DetailViewController.swift */; };
+		BDBB9A362153FC6100580977 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A332153FC6100580977 /* AddContactViewController.swift */; };
+		BDBB9A372153FC6100580977 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A342153FC6100580977 /* MasterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		BDBB9A202153002E00580977 /* La AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "La AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDBB9A242153002E00580977 /* La_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = La_AppUITests.swift; sourceTree = "<group>"; };
 		BDBB9A262153002E00580977 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BDBB9A322153FC6100580977 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		BDBB9A332153FC6100580977 /* AddContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
+		BDBB9A342153FC6100580977 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,9 @@
 			children = (
 				BDBB9A042153002B00580977 /* AppDelegate.swift */,
 				BDBB9A062153002C00580977 /* ViewController.swift */,
+				BDBB9A332153FC6100580977 /* AddContactViewController.swift */,
+				BDBB9A322153FC6100580977 /* DetailViewController.swift */,
+				BDBB9A342153FC6100580977 /* MasterViewController.swift */,
 				BDBB9A082153002C00580977 /* Main.storyboard */,
 				BDBB9A0B2153002E00580977 /* Assets.xcassets */,
 				BDBB9A0D2153002E00580977 /* LaunchScreen.storyboard */,
@@ -256,6 +265,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDBB9A372153FC6100580977 /* MasterViewController.swift in Sources */,
+				BDBB9A352153FC6100580977 /* DetailViewController.swift in Sources */,
+				BDBB9A362153FC6100580977 /* AddContactViewController.swift in Sources */,
 				BDBB9A072153002C00580977 /* ViewController.swift in Sources */,
 				BDBB9A052153002B00580977 /* AppDelegate.swift in Sources */,
 			);
