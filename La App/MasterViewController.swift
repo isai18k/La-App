@@ -8,11 +8,13 @@
 
 import UIKit
 import Contacts
+import ContactsUI
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, CNContactPickerDelegate {
 
     var detailViewController: DetailViewController? = nil
     var objects = [CNContact]()
+    var contactsSinApp = [CNContact]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,15 +47,43 @@ class MasterViewController: UITableViewController {
     }
     
     @objc func addExistingContact() {
-        
+        let contactPicker = CNContactPickerViewController.init()
+        contactPicker.delegate = self
+        self.present(contactPicker, animated: true, completion: nil)
     }
     
     func retrieveContactsWithStore(store: CNContactStore) {
+        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey, CNContactNoteKey] as [Any]
+        let request = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
+        var cnContacts = [CNContact]()
+        do {
+            try store.enumerateContacts(with: request){
+                (contact, cursor) -> Void in
+                if (!contact.note.isEmpty) {
+                     NSLog("aqui hay algo")
+                }
+                
+                if contact.isKeyAvailable(CNContactNoteKey) {
+                    if let contactNotetext = contact.note as String {
+                        print(contactNotetext) // Print the image set on the contact
+                    }
+                } else {
+                    // No Image available
+                    
+                }
+                if (!contact.emailAddresses.isEmpty) {
+                }
+                cnContacts.append(contact)
+                self.objects = cnContacts
+            }
+        } catch let error {
+            NSLog("Fetch contact error: \(error)")
+        }
         do {
             let groups = try store.groups(matching: nil)
-            let predicate = CNContact.predicateForContactsInGroup(withIdentifier: groups[0].identifier)
-            //let predicate = CNContact.predicateForContactsMatchingName("John")
-            let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactEmailAddressesKey] as [Any]
+//            let predicate = CNContact.predicateForContactsInGroup(withIdentifier: groups[0].identifier)
+            let predicate = CNContact.predicateForContacts(matchingName: "John")
+            let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey] as [Any]
             
             let contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
             self.objects = contacts
@@ -62,6 +92,21 @@ class MasterViewController: UITableViewController {
             }
         } catch {
             print(error)
+        }
+        
+        let contactStore = CNContactStore()
+        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey] as [Any]
+        let request = CNContactFetchRequest(keysToFetch: keys as! [CNKeyDescriptor])
+        
+        do {
+            try contactStore.enumerateContacts(with: request) {
+                (contact, stop) in
+                // Array containing all unified contacts from everywhere
+                self.contactsSinApp.append(contact)
+            }
+        }
+        catch {
+            print("unable to fetch contacts")
         }
     }
 
@@ -89,9 +134,15 @@ class MasterViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let object = objects[indexPath.row]
+                
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.contactItem = object
+                
+                if indexPath.section == 0{
+                    controller.contactItem = objects[indexPath.row]
+                }else if indexPath.section == 1{
+                    controller.contactItem = contactsSinApp[indexPath.row]
+                }
+              
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -101,21 +152,50 @@ class MasterViewController: UITableViewController {
     // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-         return 1
+        if(objects.count > 0){
+            return 2
+        }
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        if(section == 0){
+            return objects.count
+        }else if(section == 1){
+            return contactsSinApp.count
+        }else{
+            return 0
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+       
+        var title = ""
+        if(section == 0){
+            title = "Usuarios con la App"}
+        if(section == 1){
+            title = "Lista de Contactos"}
+        return title;
     }
  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        let contact = self.objects[indexPath.row]
-        let formatter = CNContactFormatter()
-        
-        cell.textLabel?.text = formatter.string(from: contact)
-        cell.detailTextLabel?.text = contact.emailAddresses.first?.value as String?
+        if (indexPath.section == 0) {
+            let contact = self.objects[indexPath.row]
+            let formatter = CNContactFormatter()
+            
+            cell.textLabel?.text = formatter.string(from: contact)
+            cell.detailTextLabel?.text = contact.phoneNumbers.first?.value.stringValue as String?
+            
+        }else if(indexPath.section == 1){
+            let contact = self.contactsSinApp[indexPath.row]
+            let formatter = CNContactFormatter()
+            
+            cell.textLabel?.text = formatter.string(from: contact)
+            cell.detailTextLabel?.text = ""
+        }
+      
         
         return cell
     }
@@ -124,5 +204,15 @@ class MasterViewController: UITableViewController {
         // Return false if you do not want the specified item to be editable.
         return false
     }
+    //MARK: - Contack Picker
+//    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+////         NotificationCenter.default.post(name: NSNotification.Name("addNewContact"), object: nil, userInfo: ["contactToAdd": contact])
+//
+//    }
+    
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contacProperty: CNContactProperty) {
+        
+    }
+
 }
 

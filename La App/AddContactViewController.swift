@@ -30,6 +30,8 @@ class AddContactViewController: UIViewController, UIImagePickerControllerDelegat
                 contactToAdd.imageData = UIImagePNGRepresentation(image)
             }
             
+            contactToAdd.note = "Usa la App"
+            
             let saveRequest = CNSaveRequest()
             saveRequest.add(contactToAdd, toContainerWithIdentifier: nil)
             
