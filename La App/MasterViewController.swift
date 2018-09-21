@@ -17,7 +17,7 @@ class MasterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let addExisting = UIBarButtonItem(title: "Add Existing", style: .plain, target: self, action: "addExistingContact")
+        let addExisting = UIBarButtonItem(title: "Add Existing", style: .plain, target: self, action:  #selector(addExistingContact))
         self.navigationItem.leftBarButtonItem = addExisting
 
         if let split = self.splitViewController {
@@ -33,17 +33,18 @@ class MasterViewController: UITableViewController {
         let store = CNContactStore()
         
         if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
-            store.requestAccess(for: .contacts, completionHandler: { (authorized: Bool, error: NSError?) -> Void in
-                if authorized {
+            
+            store.requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
+                if access {
                     self.retrieveContactsWithStore(store: store)
                 }
-                } as! (Bool, Error?) -> Void)
+            })
         } else if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
             self.retrieveContactsWithStore(store: store)
         }
     }
     
-    func addExistingContact() {
+    @objc func addExistingContact() {
         
     }
     

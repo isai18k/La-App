@@ -13,7 +13,33 @@ class AddContactViewController: UIViewController, UIImagePickerControllerDelegat
     
     var contact: CNContact {
         get {
-            return CNContact()
+            let store = CNContactStore()
+            
+            let contactToAdd = CNMutableContact()
+            contactToAdd.givenName = self.firstName.text ?? ""
+            contactToAdd.familyName = self.lastName.text ?? ""
+            
+            let mobileNumber = CNPhoneNumber(stringValue: (self.mobileNumber.text ?? ""))
+            let mobileValue = CNLabeledValue(label: CNLabelPhoneNumberMobile, value: mobileNumber)
+            contactToAdd.phoneNumbers = [mobileValue]
+  
+            let email = CNLabeledValue(label: CNLabelHome, value: self.homeEmail.text! as NSString)
+            contactToAdd.emailAddresses = [email]
+            
+            if let image = self.contactImage.image {
+                contactToAdd.imageData = UIImagePNGRepresentation(image)
+            }
+            
+            let saveRequest = CNSaveRequest()
+            saveRequest.add(contactToAdd, toContainerWithIdentifier: nil)
+            
+            do {
+                try store.execute(saveRequest)
+            } catch {
+                print(error)
+            }
+            
+            return contactToAdd
         }
     }
 
