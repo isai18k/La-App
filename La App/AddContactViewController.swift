@@ -9,7 +9,8 @@
 import UIKit
 import Contacts
 
-class AddContactViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddContactViewController: UIViewController, UINavigationControllerDelegate {
+    let imagePicker = UIImagePickerController()
     
     var contact: CNContact {
         get {
@@ -71,21 +72,11 @@ class AddContactViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     @IBAction func didPressAddImage(sender: AnyObject) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
+        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.delegate = self as (UIImagePickerControllerDelegate & UINavigationControllerDelegate)
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    // MARK: - Image Picker Delegate
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        self.dismiss(animated: true, completion: nil)
-        self.contactImage.image = image
-        UIView.animate(withDuration: 0.3) { () -> Void in
-            self.contactImage.alpha = 1.0
-            self.addImage.alpha = 0.0
-        }
-    }
 
     /*
     // MARK: - Navigation
@@ -96,5 +87,42 @@ class AddContactViewController: UIViewController, UIImagePickerControllerDelegat
         // Pass the selected object to the new view controller.
     }
     */
+}
 
+extension AddContactViewController :  UIImagePickerControllerDelegate  {
+    
+    func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Saved!", message: "Image saved successfully", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
+    }
+    
+    //MARK: - Done image capture here
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("aqui hace algo")
+        self.dismiss(animated: true, completion: nil)
+        self.contactImage.image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
+        UIView.animate(withDuration: 0.3) { () -> Void in
+            self.contactImage.alpha = 1.0
+            self.addImage.alpha = 0.0
+        }
+    }
+    
+    // MARK: - Image Picker Delegate
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+//        self.dismiss(animated: true, completion: nil)
+//        self.contactImage.image = image
+//        UIView.animate(withDuration: 0.3) { () -> Void in
+//            self.contactImage.alpha = 1.0
+//            self.addImage.alpha = 0.0
+//        }
+//    }
+    
 }

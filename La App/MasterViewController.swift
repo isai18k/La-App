@@ -15,10 +15,26 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     var detailViewController: DetailViewController? = nil
     var objects = [CNContact]()
     var contactsSinApp = [CNContact]()
+    
+    let collation = UILocalizedIndexedCollation.current()
+    var contactsWithSections = [[CNContact]]()
+    var sectionTitles = [String]()
+    
+    var filteredContacts = [[CNContact]]()
 
+    let searchController = UISearchController(searchResultsController: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Buscar Contactos"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
         let addExisting = UIBarButtonItem(title: "Add Existing", style: .plain, target: self, action:  #selector(addExistingContact))
         self.navigationItem.leftBarButtonItem = addExisting
 
@@ -53,21 +69,6 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     }
     
     func retrieveContactsWithStore(store: CNContactStore) {
-        do {
-            let groups = try store.groups(matching: nil)
-//            let predicate = CNContact.predicateForContactsInGroup(withIdentifier: groups[0].identifier)
-            let predicate = CNContact.predicateForContacts(matchingName: "Paco")
-            let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey] as [Any]
-            
-            let contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
-            self.objects = contacts
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            print(error)
-        }
-        
         let contactStore = CNContactStore()
         let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey, CNContactNoteKey] as [Any]
         let request = CNContactFetchRequest(keysToFetch: keys as! [CNKeyDescriptor])
@@ -78,7 +79,7 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
 //
                 if contact.isKeyAvailable(CNContactNoteKey) {
                     if (!contact.note.isEmpty) {
-                        NSLog("aqui hay algo")
+                        print("aqui hay algo")
                         print(contact.note)
                         if contact.note == "Usa la App"{
                             self.objects.append(contact)
@@ -89,18 +90,24 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
                         // Array containing all unified contacts from everywhere
                         self.contactsSinApp.append(contact)
                     }
+                }// No key available
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
                 }
-//                    else {
-//                    // No key available
-//                }
             }
+            let sortedContactsApp = objects.sorted { $0.givenName < $1.givenName }
+            objects = sortedContactsApp
+
+        
+            //Create sections of contacts using collation object
+            let (arrayContacts, arrayTitles) = collation.partitionObjects(array: self.contactsSinApp, collationStringSelector: #selector(getter: CNContact.givenName))
+            self.contactsWithSections = arrayContacts as! [[CNContact]]
+            self.sectionTitles = arrayTitles
         }
         catch {
+            print(error)
             print("unable to fetch contacts")
         }
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -132,8 +139,8 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
                 
                 if indexPath.section == 0{
                     controller.contactItem = objects[indexPath.row]
-                }else if indexPath.section == 1{
-                    controller.contactItem = contactsSinApp[indexPath.row]
+                }else {
+                    controller.contactItem = contactsWithSections[indexPath.section-1][indexPath.row]
                 }
               
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
@@ -145,48 +152,55 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        if isFiltering() {
+            return 1
+        }
+        return sectionTitles.count + 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredContacts[section].count
+        }
         if(section == 0){
             return objects.count
-        }else if(section == 1){
-            return contactsSinApp.count
         }else{
-            return 0
+            return contactsWithSections[section-1].count
         }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-       
         var title = ""
         if(section == 0){
-            title = "Usuarios con la App"}
-        if(section == 1){
-            title = "Lista de Contactos"}
+            title = "Usuarios con la App"
+        }else{
+            title = sectionTitles[section-1]
+        }
         return title;
     }
  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let formatter = CNContactFormatter()
         
-        if (indexPath.section == 0) {
-            let contact = self.objects[indexPath.row]
-            let formatter = CNContactFormatter()
-            
-            cell.textLabel?.text = formatter.string(from: contact)
-            cell.detailTextLabel?.text = contact.phoneNumbers.first?.value.stringValue as String?
-            
-        }else if(indexPath.section == 1){
-            let contact = self.contactsSinApp[indexPath.row]
-            let formatter = CNContactFormatter()
-            
-            cell.textLabel?.text = formatter.string(from: contact)
-            cell.detailTextLabel?.text = ""
+        if isFiltering() {
+            let contactFilter : CNContact
+            contactFilter = filteredContacts[indexPath.section][indexPath.row]
+            cell.textLabel?.text = formatter.string(from: contactFilter)
+        }else{
+            if (indexPath.section == 0) {
+                let contact = self.objects[indexPath.row]
+  
+                cell.textLabel?.text = formatter.string(from: contact)
+                cell.detailTextLabel?.text = contact.phoneNumbers.first?.value.stringValue as String?
+                
+            }else{
+                let contact = contactsWithSections[indexPath.section-1][indexPath.row]
+               
+                cell.textLabel?.text = formatter.string(from: contact)
+                cell.detailTextLabel?.text = ""
+            }
         }
-      
-        
         return cell
     }
     
@@ -201,8 +215,58 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
 //    }
     
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contacProperty: CNContactProperty) {
+        print("Muestra info del contacto")
+    }
+    
+    // MARK: - Private instance methods
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredContacts = [contactsSinApp.filter({( contact : CNContact) -> Bool in
+            let contactoStr = contact.givenName
+            return contactoStr.lowercased().contains(searchText.lowercased())
+        })]
         
+        self.tableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
     }
 
 }
 
+extension MasterViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}
+
+extension UILocalizedIndexedCollation {
+    //func for partition array in sections
+    func partitionObjects(array:[AnyObject], collationStringSelector:Selector) -> ([AnyObject], [String]) {
+        var unsortedSections = [[AnyObject]]()
+        //1. Create a array to hold the data for each section
+        for _ in self.sectionTitles {
+            unsortedSections.append([]) //appending an empty array
+        }
+        //2. Put each objects into a section
+        for item in array {
+            let index:Int = self.section(for: item, collationStringSelector:collationStringSelector)
+            unsortedSections[index].append(item)
+        }
+        //3. sorting the array of each sections
+        var sectionTitles = [String]()
+        var sections = [AnyObject]()
+        for index in 0 ..< unsortedSections.count { if unsortedSections[index].count > 0 {
+            sectionTitles.append(self.sectionTitles[index])
+            sections.append(self.sortedArray(from: unsortedSections[index], collationStringSelector: collationStringSelector) as AnyObject)
+            }
+        }
+        return (sections, sectionTitles)
+    }
+}

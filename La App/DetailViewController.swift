@@ -39,6 +39,19 @@ class DetailViewController: UIViewController {
                         if let data = contact.imageData {
                             self.contactImage.image = UIImage(data: data)
                         }
+                    }else{
+                        let lblNameInitialize = UILabel()
+                        lblNameInitialize.frame.size = CGSize(width: 100.0, height: 100.0)
+                        lblNameInitialize.textColor = UIColor.white
+                        lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String("J")
+                        lblNameInitialize.textAlignment = NSTextAlignment.center
+                        lblNameInitialize.backgroundColor = UIColor.black
+                        lblNameInitialize.layer.cornerRadius = 50.0
+                        
+                        UIGraphicsBeginImageContext(lblNameInitialize.frame.size)
+                        lblNameInitialize.layer.render(in: UIGraphicsGetCurrentContext()!)
+                        self.contactImage.image = UIGraphicsGetImageFromCurrentImageContext()
+                        UIGraphicsEndImageContext()
                     }
                     
                     self.fullName.text = CNContactFormatter().string(from: contact)
