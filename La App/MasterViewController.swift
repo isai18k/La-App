@@ -53,36 +53,10 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     }
     
     func retrieveContactsWithStore(store: CNContactStore) {
-        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey, CNContactNoteKey] as [Any]
-        let request = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
-        var cnContacts = [CNContact]()
-        do {
-            try store.enumerateContacts(with: request){
-                (contact, cursor) -> Void in
-                if (!contact.note.isEmpty) {
-                     NSLog("aqui hay algo")
-                }
-                
-                if contact.isKeyAvailable(CNContactNoteKey) {
-                    if let contactNotetext = contact.note as String {
-                        print(contactNotetext) // Print the image set on the contact
-                    }
-                } else {
-                    // No Image available
-                    
-                }
-                if (!contact.emailAddresses.isEmpty) {
-                }
-                cnContacts.append(contact)
-                self.objects = cnContacts
-            }
-        } catch let error {
-            NSLog("Fetch contact error: \(error)")
-        }
         do {
             let groups = try store.groups(matching: nil)
 //            let predicate = CNContact.predicateForContactsInGroup(withIdentifier: groups[0].identifier)
-            let predicate = CNContact.predicateForContacts(matchingName: "John")
+            let predicate = CNContact.predicateForContacts(matchingName: "Paco")
             let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey] as [Any]
             
             let contacts = try store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
@@ -95,19 +69,38 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
         }
         
         let contactStore = CNContactStore()
-        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey] as [Any]
+        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey, CNContactNoteKey] as [Any]
         let request = CNContactFetchRequest(keysToFetch: keys as! [CNKeyDescriptor])
         
         do {
             try contactStore.enumerateContacts(with: request) {
                 (contact, stop) in
-                // Array containing all unified contacts from everywhere
-                self.contactsSinApp.append(contact)
+//
+                if contact.isKeyAvailable(CNContactNoteKey) {
+                    if (!contact.note.isEmpty) {
+                        NSLog("aqui hay algo")
+                        print(contact.note)
+                        if contact.note == "Usa la App"{
+                            self.objects.append(contact)
+                        }else{
+                            self.contactsSinApp.append(contact)
+                        }
+                    }else{
+                        // Array containing all unified contacts from everywhere
+                        self.contactsSinApp.append(contact)
+                    }
+                }
+//                    else {
+//                    // No key available
+//                }
             }
         }
         catch {
             print("unable to fetch contacts")
         }
+//        DispatchQueue.main.async {
+//            self.tableView.reloadData()
+//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -152,10 +145,7 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if(objects.count > 0){
-            return 2
-        }
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
