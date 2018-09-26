@@ -10,7 +10,7 @@ import UIKit
 import Contacts
 import ContactsUI
 
-class MasterViewController: UITableViewController, CNContactPickerDelegate {
+class MasterViewController: UITableViewController, CNContactPickerDelegate, UISplitViewControllerDelegate {
 
     var detailViewController: DetailViewController? = nil
     var objects = [CNContact]()
@@ -28,6 +28,9 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        self.splitViewController?.delegate = self
+        self.splitViewController?.preferredDisplayMode = .allVisible
+        
         // Setup the Search Controller
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -44,6 +47,14 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(insertNewObject), name: NSNotification.Name("addNewContact"), object: nil)
+    }
+    
+    func splitViewController(
+        _ splitViewController: UISplitViewController,
+        collapseSecondary secondaryViewController: UIViewController,
+        onto primaryViewController: UIViewController) -> Bool {
+        // Return true to prevent UIKit from applying its default behavior
+        return true
     }
     
     func getContacts() {

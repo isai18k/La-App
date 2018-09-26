@@ -8,8 +8,9 @@
 
 import UIKit
 import Contacts
+import MessageUI
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, MFMessageComposeViewControllerDelegate {
 
     @IBOutlet weak var contactImage: UIImageView!
     
@@ -17,6 +18,10 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var address: UILabel!
     @IBOutlet weak var email: UILabel!
     @IBOutlet weak var phone: UILabel!
+    @IBOutlet weak var lblDescription: UILabel!
+    @IBOutlet weak var btnImessage: UIButton!
+    
+    var phoneNumber: String = ""
     
     var contactItem: CNContact? {
         didSet {
@@ -28,17 +33,18 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.lblDescription.isHidden = false
+        self.btnImessage.isHidden = false
         self.configureView()
     }
 
     func configureView() {
         // Update the user interface for the detail item.
-        // Update the user interface for the detail item.
         if let oldContact = self.contactItem {
             let store = CNContactStore()
             
             do {
-                let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactEmailAddressesKey, CNContactPostalAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactImageDataAvailableKey] as [Any]
+                let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactEmailAddressesKey, CNContactPostalAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactNoteKey, CNContactImageDataAvailableKey] as [Any]
                 let contact = try store.unifiedContact(withIdentifier: oldContact.identifier, keysToFetch: keysToFetch as! [CNKeyDescriptor])
                 
                 DispatchQueue.main.async {
@@ -75,6 +81,7 @@ class DetailViewController: UIViewController {
                     
                     self.email.text = contact.emailAddresses.first?.value as String?
                     self.phone.text = contact.phoneNumbers.first?.value.stringValue as String?
+                    self.phoneNumber = self.phone.text ?? ""
                     
                     if contact.isKeyAvailable(CNContactPostalAddressesKey) {
                         if let postalAddress = contact.postalAddresses.first?.value {
@@ -83,14 +90,38 @@ class DetailViewController: UIViewController {
                             self.address.text = "No Address"
                         }
                     }
+                    
+                    if contact.isKeyAvailable(CNContactNoteKey) {
+                        if (!contact.note.isEmpty) {
+                            print(contact.note)
+                            if contact.note == "Usa la App"{
+                                self.lblDescription.isHidden = true
+                                self.btnImessage.isHidden = true
+                            }
+                        }
+                    }
                 }
             } catch {
                 print(error)
             }
         }
     }
-
-
+    
+    @IBAction func sendSMSText(sender: AnyObject) {
+        if (MFMessageComposeViewController.canSendText()) {
+            let controller = MFMessageComposeViewController()
+            controller.body = ""
+            controller.recipients = [phoneNumber]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        //... handle sms screen actions
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

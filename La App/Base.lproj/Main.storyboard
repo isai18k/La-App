@@ -100,14 +100,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Nombre completo" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="vP2-1y-0UE">
-                                <rect key="frame" x="20" y="404" width="280" height="26.5"/>
+                                <rect key="frame" x="20" y="334" width="280" height="26.5"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M66-Rb-bSn">
-                                <rect key="frame" x="40" y="128" width="240" height="240"/>
+                                <rect key="frame" x="40" y="84" width="240" height="240"/>
                                 <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="Xwh-28-F7S"/>
@@ -120,19 +120,19 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dirección" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyT-cN-wLg">
-                                <rect key="frame" x="16" y="438.5" width="288" height="20.5"/>
+                                <rect key="frame" x="16" y="368.5" width="288" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E-mail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMw-qh-Odl">
-                                <rect key="frame" x="16" y="467" width="288" height="20.5"/>
+                                <rect key="frame" x="16" y="397" width="288" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Teléfono" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NN-rl-4mo">
-                                <rect key="frame" x="16" y="495" width="288" height="20.5"/>
+                                <rect key="frame" x="16" y="425" width="288" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="qJA-vE-OfV"/>
                                 </constraints>
@@ -140,23 +140,45 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Esté contacto no cuenta con la App aun, enviale un mensaje presionando el siguiente botón, para que la descargue." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTm-oe-xuR">
+                                <rect key="frame" x="20" y="455.5" width="280" height="50.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nYv-mY-VlL">
+                                <rect key="frame" x="140" y="514" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="2mm-B7-fTg"/>
+                                    <constraint firstAttribute="width" constant="40" id="DFB-tg-3LL"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="iMessageIcon"/>
+                                <connections>
+                                    <action selector="sendSMSTextWithSender:" destination="ue5-Mw-S9d" eventType="touchUpInside" id="9TW-qc-eui"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="RyT-cN-wLg" firstAttribute="trailing" secondItem="Rup-cs-uCt" secondAttribute="trailingMargin" id="8MD-Fi-tNz"/>
                             <constraint firstItem="3NN-rl-4mo" firstAttribute="top" secondItem="sMw-qh-Odl" secondAttribute="bottom" constant="8" id="AJz-vQ-K9u"/>
                             <constraint firstAttribute="trailing" secondItem="vP2-1y-0UE" secondAttribute="trailing" constant="20" symbolic="YES" id="EET-Ai-ZsK"/>
+                            <constraint firstItem="M66-Rb-bSn" firstAttribute="top" secondItem="hK4-RK-AUg" secondAttribute="bottom" constant="20" id="I2I-8p-Mau"/>
                             <constraint firstItem="vP2-1y-0UE" firstAttribute="centerY" secondItem="Rup-cs-uCt" secondAttribute="centerY" constant="108" id="IiS-ig-QBV"/>
                             <constraint firstItem="sMw-qh-Odl" firstAttribute="leading" secondItem="Rup-cs-uCt" secondAttribute="leadingMargin" id="MWx-Xw-jJF"/>
+                            <constraint firstItem="5bX-mZ-4xx" firstAttribute="trailing" secondItem="ZTm-oe-xuR" secondAttribute="trailing" constant="20" id="NSs-V3-kSo"/>
                             <constraint firstItem="3NN-rl-4mo" firstAttribute="leading" secondItem="5bX-mZ-4xx" secondAttribute="leading" constant="16" id="OiG-sZ-pYv"/>
+                            <constraint firstItem="ZTm-oe-xuR" firstAttribute="top" secondItem="3NN-rl-4mo" secondAttribute="bottom" constant="10" id="Pb7-tD-GeZ"/>
                             <constraint firstItem="RyT-cN-wLg" firstAttribute="top" secondItem="vP2-1y-0UE" secondAttribute="bottom" constant="8" id="Rfv-NG-w6O"/>
                             <constraint firstItem="M66-Rb-bSn" firstAttribute="centerX" secondItem="Rup-cs-uCt" secondAttribute="centerX" id="TgH-jo-e1U"/>
-                            <constraint firstItem="vP2-1y-0UE" firstAttribute="top" secondItem="M66-Rb-bSn" secondAttribute="bottom" constant="36" id="U4c-h6-pxE"/>
+                            <constraint firstItem="vP2-1y-0UE" firstAttribute="top" secondItem="M66-Rb-bSn" secondAttribute="bottom" constant="10" id="U4c-h6-pxE"/>
                             <constraint firstItem="vP2-1y-0UE" firstAttribute="leading" secondItem="Rup-cs-uCt" secondAttribute="leading" constant="20" symbolic="YES" id="VNa-ea-UaC"/>
                             <constraint firstItem="5bX-mZ-4xx" firstAttribute="trailing" secondItem="3NN-rl-4mo" secondAttribute="trailing" constant="16" id="WVr-wd-V33"/>
                             <constraint firstItem="sMw-qh-Odl" firstAttribute="trailing" secondItem="Rup-cs-uCt" secondAttribute="trailingMargin" id="bPq-0d-cC6"/>
+                            <constraint firstItem="nYv-mY-VlL" firstAttribute="centerX" secondItem="Rup-cs-uCt" secondAttribute="centerX" id="dFi-rA-zIY"/>
+                            <constraint firstItem="nYv-mY-VlL" firstAttribute="top" secondItem="ZTm-oe-xuR" secondAttribute="bottom" constant="8" id="iof-Kq-GlK"/>
                             <constraint firstItem="RyT-cN-wLg" firstAttribute="leading" secondItem="Rup-cs-uCt" secondAttribute="leadingMargin" id="nF6-vK-nUK"/>
-                            <constraint firstItem="M66-Rb-bSn" firstAttribute="centerY" secondItem="Rup-cs-uCt" secondAttribute="centerY" constant="-36" id="r2H-EH-68i"/>
+                            <constraint firstItem="ZTm-oe-xuR" firstAttribute="leading" secondItem="5bX-mZ-4xx" secondAttribute="leading" constant="20" id="nbI-89-hKu"/>
                             <constraint firstItem="sMw-qh-Odl" firstAttribute="top" secondItem="RyT-cN-wLg" secondAttribute="bottom" constant="8" id="roj-rj-bgU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5bX-mZ-4xx"/>
@@ -170,15 +192,17 @@
                     <navigationItem key="navigationItem" title="Detalle" id="5Qj-OL-vCh"/>
                     <connections>
                         <outlet property="address" destination="RyT-cN-wLg" id="ZAh-xW-2fw"/>
+                        <outlet property="btnImessage" destination="nYv-mY-VlL" id="lr3-Gz-c3J"/>
                         <outlet property="contactImage" destination="M66-Rb-bSn" id="pP6-HZ-zGL"/>
                         <outlet property="email" destination="sMw-qh-Odl" id="xhv-GM-XF4"/>
                         <outlet property="fullName" destination="vP2-1y-0UE" id="xum-dJ-Rfl"/>
+                        <outlet property="lblDescription" destination="ZTm-oe-xuR" id="Qkd-qR-Mfy"/>
                         <outlet property="phone" destination="3NN-rl-4mo" id="uUw-ad-HM0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XDp-mJ-h2e" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="709" y="129"/>
+            <point key="canvasLocation" x="708.75" y="128.87323943661971"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="zmz-pK-Vsh">
@@ -307,21 +331,33 @@
                                 <rect key="frame" x="16" y="392" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ch0-WF-JtT" id="Ibi-pz-2qk"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Apellido" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KhV-3H-ehh">
                                 <rect key="frame" x="16" y="430" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ch0-WF-JtT" id="Wwh-32-ZFO"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Número de Celular" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5OQ-pV-9zP">
                                 <rect key="frame" x="16" y="468" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ch0-WF-JtT" id="dMz-zW-cTK"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Bv-e5-iR2">
                                 <rect key="frame" x="16" y="506" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ch0-WF-JtT" id="i9B-h3-6jQ"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -384,6 +420,9 @@
             <point key="canvasLocation" x="-45" y="129"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="iMessageIcon" width="512" height="512"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="QY8-Ee-dpG"/>
     </inferredMetricsTieBreakers>

@@ -9,7 +9,7 @@
 import UIKit
 import Contacts
 
-class AddContactViewController: UIViewController, UINavigationControllerDelegate {
+class AddContactViewController: UIViewController, UINavigationControllerDelegate, UITextFieldDelegate{
     let imagePicker = UIImagePickerController()
     
     var contact: CNContact {
@@ -47,7 +47,6 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     }
 
     @IBOutlet weak var addImage: UIButton!
-    
     @IBOutlet weak var contactImage: UIImageView!
     
     @IBOutlet weak var firstName: UITextField!
@@ -58,7 +57,7 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.hideKeyboardWhenTappedAround()
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,6 +76,13 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         self.present(imagePicker, animated: true, completion: nil)
     }
     
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 
     /*
     // MARK: - Navigation
@@ -87,6 +93,18 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         // Pass the selected object to the new view controller.
     }
     */
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension AddContactViewController :  UIImagePickerControllerDelegate  {
@@ -118,10 +136,6 @@ extension AddContactViewController :  UIImagePickerControllerDelegate  {
     // MARK: - Image Picker Delegate
 //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
 //        self.dismiss(animated: true, completion: nil)
-//        self.contactImage.image = image
-//        UIView.animate(withDuration: 0.3) { () -> Void in
-//            self.contactImage.alpha = 1.0
-//            self.addImage.alpha = 0.0
 //        }
 //    }
     
