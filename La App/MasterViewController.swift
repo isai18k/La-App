@@ -109,9 +109,6 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
                         self.contactsSinApp.append(contact)
                     }
                 }// No key available
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
             }
             let sortedContactsApp = objects.sorted { $0.givenName < $1.givenName }
             objects = sortedContactsApp
@@ -121,6 +118,10 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
             let (arrayContacts, arrayTitles) = collation.partitionObjects(array: self.contactsSinApp, collationStringSelector: #selector(getter: CNContact.givenName))
             self.contactsWithSections = arrayContacts as! [[CNContact]]
             self.sectionTitles = arrayTitles
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
         catch {
             print(error)
