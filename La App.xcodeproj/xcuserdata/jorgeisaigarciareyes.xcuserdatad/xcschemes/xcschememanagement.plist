@@ -7,7 +7,32 @@
 		<key>La App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>La AppUITests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>BDBB9A002153002B00580977</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BDBB9A142153002E00580977</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BDBB9A1F2153002E00580977</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

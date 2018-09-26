@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         let store = CNContactStore()
         
+        /// Permission is requested, to access the contact list
         if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
-            
             store.requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
                 if access {
                     print("Se permitio")

@@ -38,8 +38,8 @@ class DetailViewController: UIViewController, MFMessageComposeViewControllerDele
         self.configureView()
     }
 
+    ///  Update the user interface for the detail item.
     func configureView() {
-        // Update the user interface for the detail item.
         if let oldContact = self.contactItem {
             let store = CNContactStore()
             
@@ -107,6 +107,9 @@ class DetailViewController: UIViewController, MFMessageComposeViewControllerDele
         }
     }
     
+    /// Open a view to send the SMS or iMessage to the selected contact
+    ///
+    /// - Parameter sender: sender
     @IBAction func sendSMSText(sender: AnyObject) {
         if (MFMessageComposeViewController.canSendText()) {
             let controller = MFMessageComposeViewController()
@@ -116,7 +119,7 @@ class DetailViewController: UIViewController, MFMessageComposeViewControllerDele
             self.present(controller, animated: true, completion: nil)
         }
     }
-    
+    // Hides the view of sending SMS message or iMessage
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         //... handle sms screen actions
         self.dismiss(animated: true, completion: nil)

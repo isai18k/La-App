@@ -17,6 +17,7 @@
 		BDBB9A352153FC6100580977 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A322153FC6100580977 /* DetailViewController.swift */; };
 		BDBB9A362153FC6100580977 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A332153FC6100580977 /* AddContactViewController.swift */; };
 		BDBB9A372153FC6100580977 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A342153FC6100580977 /* MasterViewController.swift */; };
+		BDEBDE01215C070B008D0048 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBB9A342153FC6100580977 /* MasterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -285,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDEBDE01215C070B008D0048 /* MasterViewController.swift in Sources */,
 				BDBB9A252153002E00580977 /* La_AppUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

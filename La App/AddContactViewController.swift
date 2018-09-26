@@ -12,6 +12,7 @@ import Contacts
 class AddContactViewController: UIViewController, UINavigationControllerDelegate, UITextFieldDelegate{
     let imagePicker = UIImagePickerController()
     
+    /// Definition of the object or contact to add
     var contact: CNContact {
         get {
             let store = CNContactStore()
@@ -64,12 +65,13 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    /// Send a notification to add to the contact and return to the initial view
     @IBAction func didPressDone(sender: AnyObject) {
         NotificationCenter.default.post(name: NSNotification.Name("addNewContact"), object: nil, userInfo: ["contactToAdd": self.contact])
         self.navigationController?.navigationController?.popViewController(animated: true)
     }
     
+    /// Open the photo gallery to select an image
     @IBAction func didPressAddImage(sender: AnyObject) {
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.delegate = self as (UIImagePickerControllerDelegate & UINavigationControllerDelegate)
@@ -96,19 +98,20 @@ class AddContactViewController: UIViewController, UINavigationControllerDelegate
 }
 
 extension UIViewController {
+    /// The gesture is added to hide the keyboard, when any area of the view shown was press
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-    
+    /// Hide the keyboard
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 }
 
 extension AddContactViewController :  UIImagePickerControllerDelegate  {
-    
+    /// Function that saved the image, not used
     func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             // we got back an error!

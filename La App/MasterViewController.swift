@@ -38,7 +38,7 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        let addExisting = UIBarButtonItem(title: "Ver Agenda", style: .plain, target: self, action:  #selector(addExistingContact))
+        let addExisting = UIBarButtonItem(title: "Ver Agenda", style: .plain, target: self, action:  #selector(showExistingContact))
         self.navigationItem.leftBarButtonItem = addExisting
 
         if let split = self.splitViewController {
@@ -57,6 +57,7 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         return true
     }
     
+    /// function that verifies if there is permission to access the contact list and calls the contact retrieval method.
     func getContacts() {
         let store = CNContactStore()
         
@@ -72,12 +73,16 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         }
     }
     
-    @objc func addExistingContact() {
+    /// function that shows the contacts list
+    @objc func showExistingContact() {
         let contactPicker = CNContactPickerViewController.init()
         contactPicker.delegate = self
         self.present(contactPicker, animated: true, completion: nil)
     }
     
+    /// Get contacts from the phone book and fill in the fields of contacts to show
+    ///
+    /// - Parameter store: List with contacts
     func retrieveContactsWithStore(store: CNContactStore) {
         self.objects.removeAll()
         self.contactsSinApp.removeAll()
@@ -92,7 +97,6 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
                 
                 if contact.isKeyAvailable(CNContactNoteKey) {
                     if (!contact.note.isEmpty) {
-                        print("aqui hay algo")
                         print(contact.note)
                         if contact.note == "Usa la App"{
                             self.objects.append(contact)
@@ -134,6 +138,9 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         // Dispose of any resources that can be recreated.
     }
 
+    /// Insert the new contact to the table
+    ///
+    /// - Parameter sender: NSNotification
     @objc func insertNewObject(sender: NSNotification) {
         if let contact = sender.userInfo?["contactToAdd"] as? CNContact {
             objects.insert(contact, at: 0)
@@ -175,6 +182,12 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         return sectionTitles.count + 1
     }
 
+    /// Depending on the section of the table returns the number of contacts to show
+    ///
+    /// - Parameters:
+    ///   - tableView: tableView
+    ///   - section: section
+    /// - Returns: numberOfRowsInSection
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredContacts[section].count
@@ -186,6 +199,12 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         }
     }
     
+    /// shows the title of the section
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - section: Int
+    /// - Returns: return the title of the section
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var title = ""
         if !isFiltering() {
@@ -203,6 +222,12 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         return title;
     }
  
+    /// Show the contact corresponding to the section of the table
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - indexPath: cell number
+    /// - Returns: return the cell to show
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let formatter = CNContactFormatter()
@@ -233,6 +258,11 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         return cell
     }
     
+    /// Show the contact image or the initials of your name
+    ///
+    /// - Parameters:
+    ///   - contact: Contacto
+    ///   - cell: contact cell
     func setImage(contact: CNContact, cell: UITableViewCell){
         if contact.imageDataAvailable {
             if let data = contact.imageData {
@@ -283,16 +313,29 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
 //
 //    }
     
+    /// Show contact info
+    ///
+    /// - Parameters:
+    ///   - picker: CNContactPickerViewController
+    ///   - contacProperty: CNContactProperty
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contacProperty: CNContactProperty) {
         print("Muestra info del contacto")
     }
     
     // MARK: - Private instance methods
+    /// Calidates if the search bar is empty
+    ///
+    /// - Returns: returns if the search bar is empty
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
+    /// Filtering contacts that do not use the app
+    ///
+    /// - Parameters:
+    ///   - searchText:
+    ///   - scope:
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredContacts = [contactsSinApp.filter({( contact : CNContact) -> Bool in
             let contactoStr = contact.givenName
@@ -302,6 +345,9 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         self.tableView.reloadData()
     }
     
+    /// Return true, if the user started looking in the table
+    ///
+    /// - Returns: True or False
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
@@ -310,6 +356,9 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
 
 extension MasterViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
+    /// Update the search table
+    ///
+    /// - Parameter searchController: UISearchController
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
