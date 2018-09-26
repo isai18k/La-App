@@ -127,7 +127,7 @@ extension AddContactViewController :  UIImagePickerControllerDelegate  {
     
     //MARK: - Done image capture here
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        print("aqui hace algo")
+        print("image was added")
         self.dismiss(animated: true, completion: nil)
         self.contactImage.image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
         UIView.animate(withDuration: 0.3) { () -> Void in

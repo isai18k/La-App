@@ -359,9 +359,19 @@
                                     <outlet property="delegate" destination="ch0-WF-JtT" id="i9B-h3-6jQ"/>
                                 </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AGREGAR CONTACTO QUE USA LA APP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YvL-gR-7ZX">
+                                <rect key="frame" x="20" y="84" width="280" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="FZE-hE-sni"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="YvL-gR-7ZX" firstAttribute="leading" secondItem="dyI-9L-ViM" secondAttribute="leading" constant="20" id="4Fe-TR-7kp"/>
                             <constraint firstItem="5OQ-pV-9zP" firstAttribute="leading" secondItem="8lQ-5X-8ok" secondAttribute="leadingMargin" id="5Fb-TE-Yk7"/>
                             <constraint firstItem="NcW-i0-KFb" firstAttribute="width" secondItem="SLK-YX-bnG" secondAttribute="width" id="6tU-Cs-kYr"/>
                             <constraint firstItem="SLK-YX-bnG" firstAttribute="centerX" secondItem="8lQ-5X-8ok" secondAttribute="centerX" id="7c8-7h-xZc"/>
@@ -372,6 +382,7 @@
                             <constraint firstItem="KhV-3H-ehh" firstAttribute="top" secondItem="fq1-bP-5e2" secondAttribute="bottom" constant="8" id="OFv-O4-BAR"/>
                             <constraint firstItem="SLK-YX-bnG" firstAttribute="centerY" secondItem="8lQ-5X-8ok" secondAttribute="centerY" constant="-48" id="SGv-Xa-MO3"/>
                             <constraint firstItem="KhV-3H-ehh" firstAttribute="trailing" secondItem="8lQ-5X-8ok" secondAttribute="trailingMargin" id="U2N-w2-fEO"/>
+                            <constraint firstItem="dyI-9L-ViM" firstAttribute="trailing" secondItem="YvL-gR-7ZX" secondAttribute="trailing" constant="20" id="WBP-NI-CVw"/>
                             <constraint firstItem="5OQ-pV-9zP" firstAttribute="trailing" secondItem="8lQ-5X-8ok" secondAttribute="trailingMargin" id="Y0E-rk-hcU"/>
                             <constraint firstItem="3Bv-e5-iR2" firstAttribute="leading" secondItem="8lQ-5X-8ok" secondAttribute="leadingMargin" id="dPK-zD-SZL"/>
                             <constraint firstItem="fq1-bP-5e2" firstAttribute="leading" secondItem="8lQ-5X-8ok" secondAttribute="leadingMargin" id="gEv-nZ-efy"/>
@@ -380,6 +391,7 @@
                             <constraint firstItem="NcW-i0-KFb" firstAttribute="centerX" secondItem="SLK-YX-bnG" secondAttribute="centerX" id="hgo-Zh-4ng"/>
                             <constraint firstItem="KhV-3H-ehh" firstAttribute="leading" secondItem="8lQ-5X-8ok" secondAttribute="leadingMargin" id="keX-NC-fJD"/>
                             <constraint firstItem="NcW-i0-KFb" firstAttribute="centerY" secondItem="SLK-YX-bnG" secondAttribute="centerY" id="vAV-mO-kev"/>
+                            <constraint firstItem="YvL-gR-7ZX" firstAttribute="top" secondItem="mxw-Hy-cRl" secondAttribute="bottom" constant="20" id="xmE-b5-HOx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dyI-9L-ViM"/>
                     </view>

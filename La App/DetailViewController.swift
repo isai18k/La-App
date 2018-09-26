@@ -87,7 +87,7 @@ class DetailViewController: UIViewController, MFMessageComposeViewControllerDele
                         if let postalAddress = contact.postalAddresses.first?.value {
                             self.address.text = CNPostalAddressFormatter().string(from: postalAddress)
                         } else {
-                            self.address.text = "No Address"
+                            self.address.text = "Sin dirección"
                         }
                     }
                     

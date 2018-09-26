@@ -47,6 +47,7 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(insertNewObject), name: NSNotification.Name("addNewContact"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateList), name: NSNotification.Name("getContacts"), object: nil)
     }
     
     func splitViewController(
@@ -147,6 +148,13 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
             let indexPath = IndexPath.init(row: 0, section: 0)
             self.tableView.insertRows(at: [indexPath as IndexPath], with: .automatic)
         }
+    }
+    
+    /// Update the table with Contacts
+    ///
+    /// - Parameter sender: NSNotification
+    @objc func updateList(sender: NSNotification) {
+       self.getContacts()
     }
 
     // MARK: - Segues
@@ -319,7 +327,7 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate, UISp
     ///   - picker: CNContactPickerViewController
     ///   - contacProperty: CNContactProperty
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contacProperty: CNContactProperty) {
-        print("Muestra info del contacto")
+        print("Show contact info")
     }
     
     // MARK: - Private instance methods

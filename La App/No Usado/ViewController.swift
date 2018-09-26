@@ -65,7 +65,7 @@ class ViewController: UIViewController, CNContactPickerDelegate {
                     self.openContacts()
                 }
                 else{
-                    print("No autorizado")
+                    print("Not authorized")
                 }
             })
             
