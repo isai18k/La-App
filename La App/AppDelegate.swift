@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Contacts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -18,10 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Override point for customization after application launch.
         
         let splitViewController = self.window!.rootViewController as! UISplitViewController
+        splitViewController.preferredDisplayMode = .automatic
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
 //        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self
         
+        let store = CNContactStore()
+        
+        if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
+            
+            store.requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
+                if access {
+                    print("Se permitio")
+                }
+            })
+        }
         return true
     }
 

@@ -47,10 +47,19 @@ class DetailViewController: UIViewController {
                             self.contactImage.image = UIImage(data: data)
                         }
                     }else{
+                        
                         let lblNameInitialize = UILabel()
                         lblNameInitialize.frame.size = CGSize(width: 100.0, height: 100.0)
                         lblNameInitialize.textColor = UIColor.white
-                        lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String(contact.familyName.first!)
+                        if !contact.familyName.isEmpty && !contact.givenName.isEmpty{
+                            lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String(contact.familyName.first!)
+                        }else{
+                            if !contact.givenName.isEmpty{
+                                lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!)
+                            }else{
+                                lblNameInitialize.text = "*"
+                            }
+                        }
                         lblNameInitialize.textAlignment = NSTextAlignment.center
                         lblNameInitialize.backgroundColor = UIColor.black
                         lblNameInitialize.layer.cornerRadius = 50.0

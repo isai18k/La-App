@@ -240,7 +240,16 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
             let lblNameInitialize = UILabel()
             lblNameInitialize.frame.size = CGSize(width: 40.0, height: 40.0)
             lblNameInitialize.textColor = UIColor.white
-            lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String(contact.familyName.first!)
+            if !contact.familyName.isEmpty && !contact.givenName.isEmpty{
+                 lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String(contact.familyName.first!)
+            }else{
+                if !contact.givenName.isEmpty{
+                     lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!)
+                }else{
+                     lblNameInitialize.text = "*"
+                }
+            }
+           
             lblNameInitialize.textAlignment = NSTextAlignment.center
             lblNameInitialize.backgroundColor = UIColor.gray
             lblNameInitialize.clipsToBounds = true
