@@ -31,11 +31,11 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
         // Setup the Search Controller
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Buscar Contactos"
+        searchController.searchBar.placeholder = "Buscar Contactos sin la App"
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        let addExisting = UIBarButtonItem(title: "Add Existing", style: .plain, target: self, action:  #selector(addExistingContact))
+        let addExisting = UIBarButtonItem(title: "Ver Agenda", style: .plain, target: self, action:  #selector(addExistingContact))
         self.navigationItem.leftBarButtonItem = addExisting
 
         if let split = self.splitViewController {
@@ -44,7 +44,6 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(insertNewObject), name: NSNotification.Name("addNewContact"), object: nil)
-        self.getContacts()
     }
     
     func getContacts() {
@@ -69,14 +68,17 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     }
     
     func retrieveContactsWithStore(store: CNContactStore) {
+        self.objects.removeAll()
+        self.contactsSinApp.removeAll()
+        
         let contactStore = CNContactStore()
-        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey, CNContactNoteKey] as [Any]
+        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey, CNContactNoteKey, CNContactImageDataKey, CNContactImageDataAvailableKey] as [Any]
         let request = CNContactFetchRequest(keysToFetch: keys as! [CNKeyDescriptor])
         
         do {
             try contactStore.enumerateContacts(with: request) {
                 (contact, stop) in
-//
+                
                 if contact.isKeyAvailable(CNContactNoteKey) {
                     if (!contact.note.isEmpty) {
                         print("aqui hay algo")
@@ -113,6 +115,7 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        self.getContacts()
     }
 
     override func didReceiveMemoryWarning() {
@@ -136,13 +139,16 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                
-                if indexPath.section == 0{
-                    controller.contactItem = objects[indexPath.row]
-                }else {
-                    controller.contactItem = contactsWithSections[indexPath.section-1][indexPath.row]
+                if isFiltering(){
+                    controller.contactItem = filteredContacts[indexPath.section][indexPath.row]
+                }else{
+                    if indexPath.section == 0{
+                        controller.contactItem = objects[indexPath.row]
+                    }else {
+                        controller.contactItem = contactsWithSections[indexPath.section-1][indexPath.row]
+                    }
                 }
-              
+               
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -171,11 +177,18 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var title = ""
-        if(section == 0){
-            title = "Usuarios con la App"
-        }else{
-            title = sectionTitles[section-1]
+        if !isFiltering() {
+            if(section == 0){
+                if objects.count == 0{
+                    title = ""
+                }else{
+                     title = "Contactos con la App"
+                }
+            }else{
+                title = sectionTitles[section-1]
+            }
         }
+       
         return title;
     }
  
@@ -187,21 +200,57 @@ class MasterViewController: UITableViewController, CNContactPickerDelegate {
             let contactFilter : CNContact
             contactFilter = filteredContacts[indexPath.section][indexPath.row]
             cell.textLabel?.text = formatter.string(from: contactFilter)
+            cell.detailTextLabel?.text = contactFilter.phoneNumbers.first?.value.stringValue as String?
+            self.setImage(contact: contactFilter, cell: cell)
         }else{
             if (indexPath.section == 0) {
                 let contact = self.objects[indexPath.row]
   
                 cell.textLabel?.text = formatter.string(from: contact)
                 cell.detailTextLabel?.text = contact.phoneNumbers.first?.value.stringValue as String?
+                self.setImage(contact: contact, cell: cell)
                 
             }else{
                 let contact = contactsWithSections[indexPath.section-1][indexPath.row]
                
                 cell.textLabel?.text = formatter.string(from: contact)
                 cell.detailTextLabel?.text = ""
+                self.setImage(contact: contact, cell: cell)
             }
+            
         }
         return cell
+    }
+    
+    func setImage(contact: CNContact, cell: UITableViewCell){
+        if contact.imageDataAvailable {
+            if let data = contact.imageData {
+                cell.imageView?.image = UIImage(data: data)
+                cell.imageView?.frame.size = CGSize(width: 40.0, height: 40.0)
+                cell.imageView?.contentMode = .scaleAspectFill
+                cell.imageView?.clipsToBounds = true
+                cell.imageView?.layer.cornerRadius = 20.0
+                
+                UIGraphicsBeginImageContext((cell.imageView?.frame.size)!)
+                cell.imageView?.layer.render(in: UIGraphicsGetCurrentContext()!)
+                cell.imageView?.image = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+            }
+        }else{
+            let lblNameInitialize = UILabel()
+            lblNameInitialize.frame.size = CGSize(width: 40.0, height: 40.0)
+            lblNameInitialize.textColor = UIColor.white
+            lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String(contact.familyName.first!)
+            lblNameInitialize.textAlignment = NSTextAlignment.center
+            lblNameInitialize.backgroundColor = UIColor.gray
+            lblNameInitialize.clipsToBounds = true
+            lblNameInitialize.layer.cornerRadius = 20.0
+            
+            UIGraphicsBeginImageContext(lblNameInitialize.frame.size)
+            lblNameInitialize.layer.render(in: UIGraphicsGetCurrentContext()!)
+            cell.imageView?.image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        }
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

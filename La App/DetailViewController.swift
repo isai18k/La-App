@@ -16,12 +16,19 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var fullName: UILabel!
     @IBOutlet weak var address: UILabel!
     @IBOutlet weak var email: UILabel!
+    @IBOutlet weak var phone: UILabel!
     
     var contactItem: CNContact? {
         didSet {
             // Update the view.
             self.configureView()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        self.configureView()
     }
 
     func configureView() {
@@ -31,7 +38,7 @@ class DetailViewController: UIViewController {
             let store = CNContactStore()
             
             do {
-                let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactEmailAddressesKey, CNContactPostalAddressesKey, CNContactImageDataKey, CNContactImageDataAvailableKey] as [Any]
+                let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactEmailAddressesKey, CNContactPostalAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataKey, CNContactImageDataAvailableKey] as [Any]
                 let contact = try store.unifiedContact(withIdentifier: oldContact.identifier, keysToFetch: keysToFetch as! [CNKeyDescriptor])
                 
                 DispatchQueue.main.async {
@@ -43,7 +50,7 @@ class DetailViewController: UIViewController {
                         let lblNameInitialize = UILabel()
                         lblNameInitialize.frame.size = CGSize(width: 100.0, height: 100.0)
                         lblNameInitialize.textColor = UIColor.white
-                        lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String("J")
+                        lblNameInitialize.text = String((CNContactFormatter().string(from: contact)?.first)!) + String(contact.familyName.first!)
                         lblNameInitialize.textAlignment = NSTextAlignment.center
                         lblNameInitialize.backgroundColor = UIColor.black
                         lblNameInitialize.layer.cornerRadius = 50.0
@@ -55,8 +62,10 @@ class DetailViewController: UIViewController {
                     }
                     
                     self.fullName.text = CNContactFormatter().string(from: contact)
+                    self.title = self.fullName.text
                     
                     self.email.text = contact.emailAddresses.first?.value as String?
+                    self.phone.text = contact.phoneNumbers.first?.value.stringValue as String?
                     
                     if contact.isKeyAvailable(CNContactPostalAddressesKey) {
                         if let postalAddress = contact.postalAddresses.first?.value {
@@ -72,11 +81,6 @@ class DetailViewController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        self.configureView()
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

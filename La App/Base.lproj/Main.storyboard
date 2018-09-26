@@ -99,7 +99,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Full Name" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="vP2-1y-0UE">
+                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Nombre completo" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="vP2-1y-0UE">
                                 <rect key="frame" x="20" y="404" width="280" height="26.5"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
@@ -119,14 +119,23 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyT-cN-wLg">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dirección" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyT-cN-wLg">
                                 <rect key="frame" x="16" y="438.5" width="288" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMw-qh-Odl">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E-mail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMw-qh-Odl">
                                 <rect key="frame" x="16" y="467" width="288" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Teléfono" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NN-rl-4mo">
+                                <rect key="frame" x="16" y="495" width="288" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="qJA-vE-OfV"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -135,13 +144,16 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="RyT-cN-wLg" firstAttribute="trailing" secondItem="Rup-cs-uCt" secondAttribute="trailingMargin" id="8MD-Fi-tNz"/>
+                            <constraint firstItem="3NN-rl-4mo" firstAttribute="top" secondItem="sMw-qh-Odl" secondAttribute="bottom" constant="8" id="AJz-vQ-K9u"/>
                             <constraint firstAttribute="trailing" secondItem="vP2-1y-0UE" secondAttribute="trailing" constant="20" symbolic="YES" id="EET-Ai-ZsK"/>
                             <constraint firstItem="vP2-1y-0UE" firstAttribute="centerY" secondItem="Rup-cs-uCt" secondAttribute="centerY" constant="108" id="IiS-ig-QBV"/>
                             <constraint firstItem="sMw-qh-Odl" firstAttribute="leading" secondItem="Rup-cs-uCt" secondAttribute="leadingMargin" id="MWx-Xw-jJF"/>
+                            <constraint firstItem="3NN-rl-4mo" firstAttribute="leading" secondItem="5bX-mZ-4xx" secondAttribute="leading" constant="16" id="OiG-sZ-pYv"/>
                             <constraint firstItem="RyT-cN-wLg" firstAttribute="top" secondItem="vP2-1y-0UE" secondAttribute="bottom" constant="8" id="Rfv-NG-w6O"/>
                             <constraint firstItem="M66-Rb-bSn" firstAttribute="centerX" secondItem="Rup-cs-uCt" secondAttribute="centerX" id="TgH-jo-e1U"/>
                             <constraint firstItem="vP2-1y-0UE" firstAttribute="top" secondItem="M66-Rb-bSn" secondAttribute="bottom" constant="36" id="U4c-h6-pxE"/>
                             <constraint firstItem="vP2-1y-0UE" firstAttribute="leading" secondItem="Rup-cs-uCt" secondAttribute="leading" constant="20" symbolic="YES" id="VNa-ea-UaC"/>
+                            <constraint firstItem="5bX-mZ-4xx" firstAttribute="trailing" secondItem="3NN-rl-4mo" secondAttribute="trailing" constant="16" id="WVr-wd-V33"/>
                             <constraint firstItem="sMw-qh-Odl" firstAttribute="trailing" secondItem="Rup-cs-uCt" secondAttribute="trailingMargin" id="bPq-0d-cC6"/>
                             <constraint firstItem="RyT-cN-wLg" firstAttribute="leading" secondItem="Rup-cs-uCt" secondAttribute="leadingMargin" id="nF6-vK-nUK"/>
                             <constraint firstItem="M66-Rb-bSn" firstAttribute="centerY" secondItem="Rup-cs-uCt" secondAttribute="centerY" constant="-36" id="r2H-EH-68i"/>
@@ -155,12 +167,13 @@
                         </variation>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail" id="5Qj-OL-vCh"/>
+                    <navigationItem key="navigationItem" title="Detalle" id="5Qj-OL-vCh"/>
                     <connections>
                         <outlet property="address" destination="RyT-cN-wLg" id="ZAh-xW-2fw"/>
                         <outlet property="contactImage" destination="M66-Rb-bSn" id="pP6-HZ-zGL"/>
                         <outlet property="email" destination="sMw-qh-Odl" id="xhv-GM-XF4"/>
                         <outlet property="fullName" destination="vP2-1y-0UE" id="xum-dJ-Rfl"/>
+                        <outlet property="phone" destination="3NN-rl-4mo" id="uUw-ad-HM0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XDp-mJ-h2e" sceneMemberID="firstResponder"/>
@@ -225,7 +238,7 @@
                             <outlet property="delegate" destination="4db-7W-viS" id="lDg-IS-RJ1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="nk9-zd-9L2">
+                    <navigationItem key="navigationItem" title="Contactos" id="nk9-zd-9L2">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="sZV-e9-XnQ">
                             <connections>
                                 <segue destination="LjW-1a-ULs" kind="show" identifier="addContact" id="q0o-rE-yHM"/>
@@ -280,7 +293,7 @@
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NcW-i0-KFb">
                                 <rect key="frame" x="40" y="116" width="240" height="240"/>
                                 <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Press to add image"/>
+                                <state key="normal" title="Agregar Imagen"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="120"/>
@@ -290,22 +303,22 @@
                                     <action selector="didPressAddImageWithSender:" destination="ch0-WF-JtT" eventType="touchUpInside" id="sus-CR-RZV"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fq1-bP-5e2">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nombre" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fq1-bP-5e2">
                                 <rect key="frame" x="16" y="392" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KhV-3H-ehh">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Apellido" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KhV-3H-ehh">
                                 <rect key="frame" x="16" y="430" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mobile Phone Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5OQ-pV-9zP">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Número de Celular" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5OQ-pV-9zP">
                                 <rect key="frame" x="16" y="468" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Home Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Bv-e5-iR2">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Bv-e5-iR2">
                                 <rect key="frame" x="16" y="506" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
@@ -335,7 +348,7 @@
                         <viewLayoutGuide key="safeArea" id="dyI-9L-ViM"/>
                     </view>
                     <navigationItem key="navigationItem" id="rNZ-1c-NL5">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="ekO-76-bPM">
+                        <barButtonItem key="rightBarButtonItem" title="Guardar" id="ekO-76-bPM">
                             <connections>
                                 <action selector="didPressDoneWithSender:" destination="ch0-WF-JtT" id="I6h-PJ-W98"/>
                             </connections>
